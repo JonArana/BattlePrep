@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Battle Prep</title>
+</head>
+<body>
+    <h1>Battle Preparations</h1>
+    <p>Mechagirl needs to arm herself with enough missles and shield power to defeat her enemies. Enter the enemy intel you have to help her out.</p>
+  
+    <label for="botsCount"># of Enemies : Enter the amount of enemies.</label><br>
+    <input type="number" id="botsCount" name="botsCount" placeholder="e.g. 5" min ="1" max="10" required><br><br>
+    <label for="botsPower">Enemy Power Levels : Enter values for each enemy separated by space. If left blank, enemy power will default to 5.</label><br>
+    <input type="text" id="botsPower" name="botsPower" placeholder="e.g. 9 13 4 8 6"><br><br>
+    <label for="bossHP">Power Level of the boss: Enter the Power Level for the end boss.</label><br>
+    <input type="text" id="bossHP" name="bossHP" placeholder="e.g. 87.15"><br><br>
+    <input type="button" id="submit" value="Submit">
+
+    <p></p>
+    <p id="missles">Amount of Missles : 10</p>
+    <p id="shield">Shield Power : 100%</p>
+
+    <script>
+        let missles = 10;
+        let shield = 100.00;
+
+        document.getElementById("submit").addEventListener("click", submitData);
+
+        function submitData(){
+            let botsCount = Math.round(document.getElementById("botsCount").value);
+            let bossHP = Number(document.getElementById("bossHP").value);
+            let botsAtk = enemyPower(botsCount) + bossHP;
+            updateMech(botsAtk);
+            
+        document.getElementById("shield").innerHTML = "Shield Power : " + shield + "%";
+        document.getElementById("missles").innerHTML = "Amount of Missles : " + missles;
+        }
+
+        function enemyPower(botsCount){
+            let botsAtk = 0;
+            const botsPower = document.getElementById("botsPower").value.split(" ");
+            for (let i = -1; i < botsCount; i++){
+                if (botsPower[i] === undefined){
+                    botsAtk += 5;
+                }
+                else{
+                    botsAtk += Number(botsPower[i]);
+                }
+            }
+            return botsAtk;
+        }
+
+        function updateMech(botsAtk){
+            if(shield < botsAtk){
+                shield = botsAtk + 10;
+            }
+            if(missles < Math.ceil(botsAtk*3/100)){
+                missles = Math.ceil(botsAtk*3/100);
+            }
+            console.log(shield, missles);
+            document.getElementById("shield").innerHTML = "Shield Power :" + shield + "%";
+        document.getElementById("missles").innerHTML = "Amount of Missles :" + missles;
+        }
+    </script>
+
+
+
+</body>
+</html>
